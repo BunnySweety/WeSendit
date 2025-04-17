@@ -8,7 +8,17 @@ Before you begin, ensure you have the following installed/ready:
 
 1.  **Docker:** [Install Docker](https://docs.docker.com/engine/install/)
 2.  **Docker Compose:** [Install Docker Compose](https://docs.docker.com/compose/install/) (Often included with Docker Desktop).
-3.  **Web3 Wallet:** A compatible Web3 wallet (e.g., MetaMask) ready for the node onboarding process. This process may require WSI tokens or specific network configurations in your wallet. Please refer to official WeSendit onboarding guides.
+# WeSendit Node Docker Setup
+
+This repository provides a Docker Compose setup to easily run and manage a WeSendit storage node. This guide assumes node configuration and identity are primarily handled via a web-based onboarding process after the initial container start.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed/ready:
+
+1.  **Docker:** [Install Docker](https://docs.docker.com/engine/install/)
+2.  **Docker Compose:** [Install Docker Compose](https://docs.docker.com/compose/install/) (Often included with Docker Desktop).
+3.  **Web3 Wallet & NFT License:** A compatible Web3 wallet (e.g., MetaMask) containing the required **WeSendit Node License NFT**. Ensure your Node License NFT is present in the wallet you intend to connect. Please refer to official WeSendit onboarding guides for details on obtaining the license and wallet requirements.
 4.  **Basic Terminal/Command Line Knowledge:** You will need to run commands in a terminal.
 5.  **Git (Optional):** To clone this repository. Otherwise, download the files manually.
 
