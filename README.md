@@ -94,6 +94,151 @@ After onboarding is complete:
         * `./node_check.sh --test <test_name>`: Run only a specific test (e.g., `--test docker`, `--test master-port`).
         * `./node_check.sh --verbose`: Show more detailed output during checks.
 
+    ### Example Output
+
+    **Standard Run:**
+    ```bash
+    sudo ./node_check.sh 
+    ```
+    ```
+    ✅ CPU cores meet recommended specs
+    ✅ CPU speed meets recommended specs
+    ⚠️ Available storage meets minimum but not recommended specs
+    ✅ Download speed meets recommended specs
+    ✅ Upload speed meets recommended specs
+    ✅ WeSendit Node container 'wesendit-node' is RUNNING (For: 21 hours ago, Restarts: 0)
+    ✅ Ping latency meets recommended specs
+    TCP Port 41631 (Master node) from Internet: ✅ OPEN
+    TCP Port 41630 (Storage node) locally: ✅ OPEN
+
+    === SUMMARY REPORT ===
+    +----------------------+---------------+------------------+
+    | Component            | Status        | Details          |
+    +----------------------+---------------+------------------+
+    | CPU                  | OPTIMAL       |         12 cores |
+    | Storage              | ADEQUATE      |   97GB available |
+    | Network Latency      | OPTIMAL       |         20.780ms |
+    | WeSendit Node Docker | RUNNING       |     21 hours ago |
+    | Master Port (41631)  | OPEN          |                  |
+    | Storage Port (41630) | OPEN          |                  |
+    +----------------------+---------------+------------------+
+    Measured Bandwidth: 2349.18↓ / 2351.07↑ Mbps
+
+    RECOMMENDATION:
+    ⚠️ Meets minimums, but not optimal: Storage(A)
+       Consider addressing ADEQUATE (A), STOPPED (S), WARNING (W) or other non-optimal components.
+
+    ```
+
+    **Verbose Run (`--verbose` or `-v`):**
+    ```bash
+    sudo ./node_check.sh -v
+    ```
+    ```
+    Checking dependencies...
+    Dependencies check passed.
+
+
+    === Node Port Configuration Check - 2025-04-17 17:51:39 ===
+
+    Public IP: xxx.xxx.xxx.xxx
+
+
+    === System Requirements Check ===
+
+    Checking CPU requirements...
+    CPU Model: 12th Gen Intel(R) Core(TM) i5-1235U
+    CPU Cores: 12 (Minimum: 2, Recommended: 2)
+    CPU Speed: 4.4GHz (Minimum: 1.5GHz, Recommended: 1.5GHz)
+    CPU Architecture: x86_64 - PASSED
+    ✅ CPU cores meet recommended specs
+    ✅ CPU speed meets recommended specs
+
+    Checking storage requirements...
+    Available Storage: 97GB (Minimum: 10GB, Recommended: 1024GB)
+    ⚠️ Available storage meets minimum but not recommended specs
+
+    Checking bandwidth requirements...
+    Using Ookla speedtest...
+    Download Speed: 2344.33 Mbps (Min: 10, Rec: 100)
+    Upload Speed:   2118.42 Mbps (Min: 10, Rec: 100)
+    ✅ Download speed meets recommended specs
+    ✅ Upload speed meets recommended specs
+
+    Checking WeSendit Node Docker status...
+    ✅ WeSendit Node container 'wesendit-node' is RUNNING (For: 21 hours ago, Restarts: 0)
+
+    === System Requirements Check Completed ===
+
+    NETWORK LATENCY TEST
+    Testing connection to network server (e.g., mst-eu1.wsi-sns.network)...
+    Performing ping test...
+    Pinging mst-eu1.wsi-sns.network (5 times)...
+    Average ping latency to mst-eu1.wsi-sns.network: 20.689ms
+    Ping latency requirements: Minimum: <150ms, Recommended: <50ms
+    ✅ Ping latency meets recommended specs
+
+
+    MASTER NODE PORT (TCP 41631)
+    Status: Must be open externally for Master Node connection.
+
+    Checking firewall status for port 41631 (in)...
+    Firewall (iptables): No simple ACCEPT rule found for 41631/tcp in INPUT chain
+    Testing TCP Port 41631 (Master node) from Internet...
+    TCP Port 41631 (Master node) from Internet: ✅ OPEN
+
+
+    STORAGE NODE PORT (TCP 41630)
+    Status: Local connection check for dashboard/onboarding.
+
+    Checking firewall status for port 41630 (in)...
+    Firewall (iptables): No simple ACCEPT rule found for 41630/tcp in INPUT chain
+    Testing TCP Port 41630 (Storage node) locally...
+    TCP Port 41630 (Storage node) locally: ✅ OPEN
+
+
+    === Tests completed ===
+
+    === SUMMARY REPORT ===
+    +----------------------+---------------+------------------+
+    | Component            | Status        | Details          |
+    +----------------------+---------------+------------------+
+    | CPU                  | OPTIMAL       |         12 cores |
+    | Storage              | ADEQUATE      |   97GB available |
+    | Network Latency      | OPTIMAL       |         20.689ms |
+    | WeSendit Node Docker | RUNNING       |     21 hours ago |
+    | Master Port (41631)  | OPEN          |                  |
+    | Storage Port (41630) | OPEN          |                  |
+    +----------------------+---------------+------------------+
+    Measured Bandwidth: 2344.33↓ / 2118.42↑ Mbps
+
+    RECOMMENDATION:
+    ⚠️ Meets minimums, but not optimal: Storage(A)
+       Consider addressing ADEQUATE (A), STOPPED (S), WARNING (W) or other non-optimal components.
+
+    ```
+
+    **Specific Test Run (`--test ping`):**
+    ```bash
+    sudo ./node_check.sh --verbose --test ping 
+    ```
+    ```
+    Checking dependencies...
+    Dependencies check passed.
+
+
+    === Running Specific Test: ping ===
+
+    Performing ping test...
+    Pinging mst-eu1.wsi-sns.network (5 times)...
+    Average ping latency to mst-eu1.wsi-sns.network: 20.707ms
+    Ping latency requirements: Minimum: <150ms, Recommended: <50ms
+    ✅ Ping latency meets recommended specs
+
+    === Specific Test (ping) Completed ===
+
+    ```
+
 ## Stopping the Node
 
 To stop the WeSendit node container:
