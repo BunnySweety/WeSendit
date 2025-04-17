@@ -1,0 +1,21 @@
+# Docker Compose file for WeSendit Node
+
+services:
+  node:
+    image: wesendit/node:latest # Use the desired tag if not latest
+    container_name: wesendit-node
+    restart: unless-stopped
+    env_file:
+      - .env # Loads TARGET_PATH, OUTWARD_PORT, FRONTEND_PORT
+    ports:
+      # Map host's outward port to container's P2P port (41631)
+      - "${OUTWARD_PORT:-41631}:41631/tcp"
+      # Map host's frontend port to container's frontend port (41630)
+      - "${FRONTEND_PORT:-41630}:41630/tcp"
+    volumes:
+      # Mounts host directory ${TARGET_PATH}/data to container's data directory
+      # Creates ${TARGET_PATH}/data on the host if it doesn't exist.
+      - "${TARGET_PATH}/data:/var/lib/wesendit-node/data"
+      # Mounts host directory ${TARGET_PATH}/config to container's config directory
+      # IMPORTANT: You MUST place your obtained conf.toml file inside ${TARGET_PATH}/config on your host.
+      - "${TARGET_PATH}/config:/etc/wesendit-node"
