@@ -32,16 +32,19 @@ Before you begin, ensure you have the following installed/ready:
 
 3.  **Configure Environment (`.env`):**
     * Open the `.env` file in a text editor.
-    * **Set `TARGET_PATH`:** This is critical for persistence. Replace the placeholder `/path/to/your/wesendit/node/files` with the **absolute path** on your host machine where you want the node's persistent data (`data` subdirectory) and configuration (`config` subdirectory, *populated during onboarding*) to be stored.
+    * **Set `TARGET_PATH`:** This is critical for persistence. Replace the placeholder `/path/to/your/wesendit/node/files` with the **absolute path** on your host machine where you want the node's persistent data (`data` subdirectory) and configuration (`config` subdirectory, *populated during onboarding*) to be stored. This variable approach is needed as specific host paths depend on the user's OS (Linux/Windows/macOS).
         * *Example Linux/macOS:* `TARGET_PATH=/srv/wesendit_node`
         * *Example Windows:* `TARGET_PATH=C:/wesendit_node`
         * **Important:** Ensure that Docker has permission to read and write to this location. Docker might create the subdirectories if they don't exist. The configuration generated during onboarding will be saved here.
     * **(Optional) Adjust Ports:** Modify `OUTWARD_PORT` (default: 41631) and `FRONTEND_PORT` (default: 41630) if you need the node to be accessible via different ports on your host machine. Ensure these ports are not already in use.
 
-4.  **Configure Firewall:**
-    * Ensure that the ports specified by `OUTWARD_PORT` (default 41631) and `FRONTEND_PORT` (default 41630) in your `.env` file are **open** on your host machine's firewall and any network firewalls/routers.
-    * The `OUTWARD_PORT` (41631) typically needs to be accessible from the internet for P2P connections.
-    * The `FRONTEND_PORT` (41630) needs to be accessible from your browser for the onboarding process and potentially later for a dashboard.
+4.  **Prepare Host Directories (If Necessary):**
+    * Docker Compose will attempt to create the host directories specified by the volume mounts if they don't exist. However, ensure the parent directory defined in `TARGET_PATH` exists and Docker has permissions. You might need to manually create the base `TARGET_PATH` directory first.
+    * The `${TARGET_PATH}/config` directory will be populated with configuration files (like `conf.toml` containing your `secret_key`) during the onboarding process.
+
+5.  **Configure Firewall:**
+    * Ensure that the port specified by `OUTWARD_PORT` (default 41631) in your `.env` file is **open** on your host machine's firewall and any network firewalls/routers, allowing incoming TCP traffic **from the internet**. This is crucial for the Master Node connection.
+    * Ensure the port specified by `FRONTEND_PORT` (default 41630) is accessible **from your web browser** for the onboarding process and dashboard access. It does *not* typically need to be open to the internet; local access is usually sufficient and recommended for security.
     * You can use the `node_check.sh` script later to help verify port accessibility.
 
 ## Running the Node & Onboarding
